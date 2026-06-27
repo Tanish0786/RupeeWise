@@ -91,15 +91,15 @@ export default function BudgetPage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md">
             <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider">Total Cap Limit</span>
-            <h3 className="text-xl font-bold text-white mt-1">₹{totalLimit.toLocaleString()}</h3>
+            <h3 className="text-xl font-bold text-white mt-1">₹{totalLimit.toLocaleString("en-IN")}</h3>
           </div>
           <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md">
             <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider">Total Spent</span>
-            <h3 className="text-xl font-bold text-white mt-1">₹{totalSpent.toLocaleString()}</h3>
+            <h3 className="text-xl font-bold text-white mt-1">₹{totalSpent.toLocaleString("en-IN")}</h3>
           </div>
           <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md">
             <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider">Remaining Cap</span>
-            <h3 className="text-xl font-bold text-emerald-400 mt-1">₹{remainingBalance.toLocaleString()}</h3>
+            <h3 className="text-xl font-bold text-emerald-400 mt-1">₹{remainingBalance.toLocaleString("en-IN")}</h3>
           </div>
         </div>
       )}
@@ -131,7 +131,7 @@ export default function BudgetPage() {
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-[10px] text-[#94A3B8] font-bold">Monthly Cap (₹{newLimit.toLocaleString()})</label>
+                  <label className="text-[10px] text-[#94A3B8] font-bold">Monthly Cap (₹{newLimit.toLocaleString("en-IN")})</label>
                   <input
                     type="range"
                     min="1000"
@@ -209,7 +209,7 @@ export default function BudgetPage() {
                         </span>
                         <div className="flex items-center gap-3">
                           <span className="text-[#94A3B8] font-mono">
-                            ₹{c.spent.toLocaleString()} / ₹{c.limit.toLocaleString()} ({percentage.toFixed(0)}%)
+                            ₹{c.spent.toLocaleString("en-IN")} / ₹{c.limit.toLocaleString("en-IN")} ({percentage.toFixed(0)}%)
                           </span>
                           <button
                             onClick={() => handleDeleteBudget(c.id)}

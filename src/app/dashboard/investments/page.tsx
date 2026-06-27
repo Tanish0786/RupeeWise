@@ -114,17 +114,17 @@ export default function InvestmentsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md">
           <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider">Portfolio Value</span>
-          <h3 className="text-xl font-bold text-white mt-1">₹{totalValue.toLocaleString()}</h3>
+          <h3 className="text-xl font-bold text-white mt-1">₹{totalValue.toLocaleString("en-IN")}</h3>
         </div>
         <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md">
           <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider">Invested Capital</span>
-          <h3 className="text-xl font-bold text-white mt-1">₹{investedCapital.toLocaleString()}</h3>
+          <h3 className="text-xl font-bold text-white mt-1">₹{investedCapital.toLocaleString("en-IN")}</h3>
         </div>
         <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md">
           <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider">Net Returns</span>
           <div className="flex items-center gap-2 mt-1">
             <h3 className="text-xl font-bold text-emerald-400">
-              +₹{profitLoss.toLocaleString()}
+              +₹{profitLoss.toLocaleString("en-IN")}
             </h3>
             <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full flex items-center gap-0.5">
               <ArrowUpRight className="w-3 h-3" />
@@ -227,7 +227,7 @@ export default function InvestmentsPage() {
                       {a.trend}
                     </span>
                   </div>
-                  <h4 className="text-lg font-bold text-white mt-1">₹{a.value.toLocaleString()}</h4>
+                  <h4 className="text-lg font-bold text-white mt-1">₹{a.value.toLocaleString("en-IN")}</h4>
                   
                   <div className="flex justify-between items-center text-[9px] text-[#94A3B8] mt-2">
                     <span>Share: {a.share}</span>
@@ -273,7 +273,7 @@ export default function InvestmentsPage() {
                     <span className="text-[9px] text-[#94A3B8] mt-0.5">{h.units} Units • Avg ₹{h.avgCost}</span>
                   </div>
                   <div className="text-right">
-                    <span className="text-xs font-bold text-white block font-mono">₹{h.value.toLocaleString()}</span>
+                    <span className="text-xs font-bold text-white block font-mono">₹{h.value.toLocaleString("en-IN")}</span>
                     <span className={`text-[9px] font-bold ${h.isPositive ? "text-emerald-400" : "text-rose-400"}`}>
                       {h.returns} Returns
                     </span>

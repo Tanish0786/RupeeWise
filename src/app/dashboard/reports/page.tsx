@@ -353,19 +353,19 @@ export default function ReportsPage() {
                 <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md">
                   <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider">Income vs Expenses</span>
                   <div className="flex flex-col gap-1 mt-2">
-                    <span className="text-xs text-emerald-400 font-bold">Inflow: ₹{currentReport.income.toLocaleString()}</span>
-                    <span className="text-xs text-[#CBD5E1] font-bold">Outflow: ₹{currentReport.expenses.toLocaleString()}</span>
+                    <span className="text-xs text-emerald-400 font-bold">Inflow: ₹{currentReport.income.toLocaleString("en-IN")}</span>
+                    <span className="text-xs text-[#CBD5E1] font-bold">Outflow: ₹{currentReport.expenses.toLocaleString("en-IN")}</span>
                   </div>
                 </div>
                 <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md">
                   <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider">Savings Rate</span>
                   <h3 className="text-xl font-bold text-[#3D4FE0] mt-2">{currentReport.savingsRate}%</h3>
-                  <span className="text-[9px] text-[#94A3B8]">Saved: ₹{currentReport.savings.toLocaleString()}</span>
+                  <span className="text-[9px] text-[#94A3B8]">Saved: ₹{currentReport.savings.toLocaleString("en-IN")}</span>
                 </div>
                 <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md">
                   <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider">Asset Yield Returns</span>
                   <h3 className="text-xl font-bold text-emerald-400 mt-2">+{currentReport.yieldReturnPct}%</h3>
-                  <span className="text-[9px] text-[#94A3B8]">Yield: ₹{currentReport.yieldReturn.toLocaleString()}</span>
+                  <span className="text-[9px] text-[#94A3B8]">Yield: ₹{currentReport.yieldReturn.toLocaleString("en-IN")}</span>
                 </div>
               </div>
 
@@ -381,7 +381,7 @@ export default function ReportsPage() {
                           {c.name}
                         </span>
                         <span className="text-[#94A3B8] font-mono">
-                          ₹{c.amount.toLocaleString()} ({c.percentage}%)
+                          ₹{c.amount.toLocaleString("en-IN")} ({c.percentage}%)
                         </span>
                       </div>
                       <div className="w-full bg-white/5 h-2 rounded-full overflow-hidden">

@@ -185,7 +185,7 @@ export default function GoalsPage() {
                     </button>
                   </div>
                 </div>
-                <p className="text-[11px] text-[#94A3B8] mt-2">Target: ₹{g.target.toLocaleString()}</p>
+                <p className="text-[11px] text-[#94A3B8] mt-2">Target: ₹{g.target.toLocaleString("en-IN")}</p>
               </div>
               
               <div className="flex flex-col gap-2">
@@ -193,7 +193,7 @@ export default function GoalsPage() {
                   <div className="bg-[#3D4FE0] h-full" style={{ width: `${g.percentage}%` }} />
                 </div>
                 <div className="flex justify-between items-center text-[10px] text-[#94A3B8] mt-1">
-                  <span>Saved: ₹{g.current.toLocaleString()}</span>
+                  <span>Saved: ₹{g.current.toLocaleString("en-IN")}</span>
                   <span className="text-[#3D4FE0] font-semibold flex items-center gap-0.5 cursor-pointer hover:underline">
                     Configure Goal Settings
                     <ArrowUpRight className="w-3 h-3" />

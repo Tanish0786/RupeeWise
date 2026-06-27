@@ -228,7 +228,7 @@ export default function AnalyticsPage() {
                     <span className={`text-xs font-bold ${
                       tx.amount > 0 ? "text-emerald-400" : "text-white"
                     }`}>
-                      {tx.amount > 0 ? "+" : ""}₹{tx.amount.toLocaleString()}
+                      {tx.amount > 0 ? "+" : ""}₹{tx.amount.toLocaleString("en-IN")}
                     </span>
                     <button
                       onClick={() => handleDeleteTx(tx.id)}
