@@ -7,6 +7,7 @@ import {
   ArrowRight, Shield, CheckCircle2, AlertCircle, PieChart,
   Home, BarChart3, Clock, Settings, Sparkles
 } from "lucide-react";
+import Link from "next/link";
 
 const TAB_PATHS: Record<string, { stroke: string; fill: string }> = {
   "1W": {
@@ -277,9 +278,12 @@ export function DashboardShowcase() {
                       "Rebalanced debt funds to liquid arbitrage. Tax savings computed: ₹12,400. Execute portfolio harvest rule?"
                     </p>
                     <div className="mt-4 flex gap-2">
-                      <button className="px-3.5 py-1.5 rounded-lg bg-[#3D4FE0] text-white text-[10px] font-bold hover:scale-105 transition-all">
+                      <Link
+                        href="/dashboard/baniya?q=Analyse my spending."
+                        className="px-3.5 py-1.5 rounded-lg bg-[#3D4FE0] text-white text-[10px] font-bold hover:scale-105 transition-all text-center"
+                      >
                         Execute Harvest
-                      </button>
+                      </Link>
                       <button className="px-3.5 py-1.5 rounded-lg border border-white/[0.05] text-[#CBD5E1] text-[10px] font-medium hover:bg-white/[0.02]">
                         Decline
                       </button>

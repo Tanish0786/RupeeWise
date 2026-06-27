@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Sparkles, User, AlertCircle, CheckCircle2, TrendingDown, ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 
 interface Message {
   sender: "user" | "baniya";
@@ -237,17 +238,20 @@ export function Baniya() {
             </div>
 
             {/* Input Bar */}
-            <div className="border-t border-white/[0.05] pt-4 flex gap-3 items-center">
-              <div className="flex-1 h-12 px-4 rounded-xl border border-white/[0.05] bg-[#0B1020]/90 text-sm text-[#94A3B8] flex items-center justify-between cursor-not-allowed">
+            <div className="border-t border-white/[0.05] pt-4 flex gap-3 items-center w-full">
+              <Link
+                href="/dashboard/baniya?q=Can I afford a ₹15 lakh car?"
+                className="flex-1 h-12 px-4 rounded-xl border border-white/[0.05] bg-[#0B1020]/90 text-sm text-[#94A3B8] flex items-center justify-between hover:border-[#3D4FE0] transition-colors cursor-pointer"
+              >
                 <span>Can I afford a ₹15 lakh car?</span>
-                <Sparkles className="w-4 h-4 text-[#3D4FE0]/60" />
-              </div>
-              <button
-                disabled
-                className="h-12 w-12 rounded-xl bg-[#3D4FE0]/40 text-white/50 flex items-center justify-center cursor-not-allowed"
+                <Sparkles className="w-4 h-4 text-[#3D4FE0]/80" />
+              </Link>
+              <Link
+                href="/dashboard/baniya?q=Can I afford a ₹15 lakh car?"
+                className="h-12 w-12 rounded-xl bg-[#3D4FE0] text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all"
               >
                 <Send className="w-4 h-4" />
-              </button>
+              </Link>
             </div>
           </div>
         </div>
