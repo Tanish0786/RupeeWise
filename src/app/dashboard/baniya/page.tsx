@@ -83,6 +83,30 @@ Before allocating capital:
 * **Free Cash Flow**: Ensure the company actually generates real cash, not just creative accounting profits.
 * **Recommendation**: Keep individual stock exposure below **10%** of your total equity portfolio. The rest belongs in broad-market indexes.`,
 
+  statement: `I audited the uploaded bank statement. 
+
+1. **Unused Subscriptions**: I found **₹8,900** in active billing renewal plans that have had 0 logged requests over the last 90 days.
+2. **Leakage Audit**: Your food & lifestyle spending exceeded caps by **20%**. 
+3. **Verdict**: Cancel the unused SaaS trials, and sweep that ₹8,900 to your Emergency Reserves Pool immediately.`,
+
+  monthly: `I've analyzed your June 2026 monthly report. 
+
+* **Savings Rate**: You hit **28.6%**, which is good, but below our **30%** target.
+* **Leakage**: You lost ₹8,900 to inactive subscription renewals. 
+* **Action**: Sweep the surplus ₹51,600 to your equity mutual funds now.`,
+
+  yearly: `I've audited your FY 2025-26 annual financial reports. 
+
+* **Yield Performance**: Net returns clocked in at **+18.2%**, beating traditional savings deposits by 11%.
+* **Rebalancing Sweep**: You successfully swept ₹7.2L to liquid debt pools.
+* **Verdict**: Compounding is working. Continue the automated sweeps.`,
+
+  investments: `I've audited your investment portfolios.
+
+* **Asset Allocation**: Equity exposure is at **57.6%**, which aligns with your risk profile.
+* **Yield Loss**: You are keeping ₹2,00,000 in cash earning only 3% interest.
+* **Verdict**: Execute liquid arbitrage sweeps immediately to harvest standard compounding dividends.`,
+
   default: `I've analyzed that request. Here is the Baniya advisory view:
   
 Always prioritize liquid cash reserves and debt optimization before chasing speculative high-yield assets. Let's set up a rebalance rule to automate this move.`
@@ -157,6 +181,10 @@ function BaniyaWorkspace() {
       const lower = queryText.toLowerCase();
 
       if (lower.includes("car")) responseText = RESPONSES.car;
+      else if (lower.includes("monthly")) responseText = RESPONSES.monthly;
+      else if (lower.includes("yearly") || lower.includes("annual")) responseText = RESPONSES.yearly;
+      else if (lower.includes("statement")) responseText = RESPONSES.statement;
+      else if (lower.includes("investment") || lower.includes("portfolio")) responseText = RESPONSES.investments;
       else if (lower.includes("budget")) responseText = RESPONSES.budget;
       else if (lower.includes("sip")) responseText = RESPONSES.sip;
       else if (lower.includes("spending") || lower.includes("analyse")) responseText = RESPONSES.spending;
