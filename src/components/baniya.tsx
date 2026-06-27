@@ -168,14 +168,27 @@ export function Baniya() {
                   <AnimatePresence>
                     {showCharts && (
                       <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5 }}
+                        variants={{
+                          hidden: { opacity: 0 },
+                          show: {
+                            opacity: 1,
+                            transition: { staggerChildren: 0.2 }
+                          }
+                        }}
+                        initial="hidden"
+                        animate="show"
+                        exit="hidden"
                         className="grid grid-cols-1 md:grid-cols-2 gap-4"
                       >
                         {/* Downpayment Allocation Progress */}
-                        <div className="p-4 rounded-xl border border-white/[0.04] bg-[#121826]/60 flex flex-col justify-between">
+                        <motion.div
+                          variants={{
+                            hidden: { opacity: 0, y: 15 },
+                            show: { opacity: 1, y: 0 }
+                          }}
+                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                          className="p-4 rounded-xl border border-white/[0.04] bg-[#121826]/60 flex flex-col justify-between"
+                        >
                           <div className="flex justify-between items-start mb-2">
                             <span className="text-xs text-[#94A3B8] font-medium">Liquidity Allocation</span>
                             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
@@ -185,15 +198,22 @@ export function Baniya() {
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: "17.8%" }}
-                              transition={{ duration: 1.2, ease: "easeOut" }}
+                              transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
                               className="bg-[#3D4FE0] h-full"
                             />
                           </div>
                           <span className="text-[10px] text-[#94A3B8] mt-2 block">17.8% of Total Liquid Wealth Used</span>
-                        </div>
+                        </motion.div>
 
                         {/* Opportunity Cost Chart */}
-                        <div className="p-4 rounded-xl border border-white/[0.04] bg-[#121826]/60 flex flex-col justify-between">
+                        <motion.div
+                          variants={{
+                            hidden: { opacity: 0, y: 15 },
+                            show: { opacity: 1, y: 0 }
+                          }}
+                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                          className="p-4 rounded-xl border border-white/[0.04] bg-[#121826]/60 flex flex-col justify-between"
+                        >
                           <div className="flex justify-between items-start mb-2">
                             <span className="text-xs text-[#94A3B8] font-medium">Opportunity Cost Loss</span>
                             <AlertCircle className="w-4 h-4 text-amber-500" />
@@ -203,12 +223,12 @@ export function Baniya() {
                             <motion.div
                               initial={{ width: 0 }}
                               animate={{ width: "75%" }}
-                              transition={{ duration: 1.2, ease: "easeOut" }}
+                              transition={{ duration: 1.2, ease: "easeOut", delay: 0.5 }}
                               className="bg-amber-500 h-full"
                             />
                           </div>
                           <span className="text-[10px] text-[#94A3B8] mt-2 block">If full cash is paid instead of smart financing</span>
-                        </div>
+                        </motion.div>
                       </motion.div>
                     )}
                   </AnimatePresence>

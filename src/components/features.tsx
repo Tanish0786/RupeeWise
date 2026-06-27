@@ -111,7 +111,14 @@ export function Features() {
               <motion.div
                 key={idx}
                 variants={cardVariants}
-                className="glass-panel glass-panel-hover p-8 rounded-2xl flex flex-col items-start text-left group"
+                whileHover={{ 
+                  y: -6, 
+                  scale: 1.01,
+                  borderColor: "rgba(61, 79, 224, 0.35)",
+                  boxShadow: "0 20px 30px -10px rgba(61, 79, 224, 0.12)"
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="glass-panel p-8 rounded-2xl flex flex-col items-start text-left group cursor-default"
               >
                 {/* Icon Container */}
                 <div className="w-12 h-12 rounded-xl bg-[#3D4FE0]/10 border border-[#3D4FE0]/20 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-[#3D4FE0]/20 group-hover:border-[#3D4FE0]/40 transition-all duration-300">

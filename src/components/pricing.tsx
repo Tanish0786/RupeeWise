@@ -79,10 +79,18 @@ export function Pricing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
+              whileHover={{
+                y: -6,
+                scale: tier.popular ? 1.06 : 1.01,
+                borderColor: "rgba(61, 79, 224, 0.5)",
+                boxShadow: tier.popular 
+                  ? "0 25px 50px -12px rgba(61, 79, 224, 0.25)" 
+                  : "0 20px 40px -15px rgba(61, 79, 224, 0.15)"
+              }}
               className={`rounded-2xl p-8 relative flex flex-col justify-between min-h-[520px] transition-all duration-300 ${
                 tier.popular
                   ? "bg-[#121826] border-2 border-[#3D4FE0] shadow-xl shadow-[#3D4FE0]/10 scale-105 md:scale-105 z-10"
-                  : "glass-panel border border-white/[0.05] hover:border-[#3D4FE0]/30 shadow-lg"
+                  : "glass-panel border border-white/[0.05] shadow-lg"
               }`}
             >
               {/* Popular Badge */}

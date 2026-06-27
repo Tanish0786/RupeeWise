@@ -121,7 +121,10 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="flex flex-col sm:flex-row items-center gap-4 mb-20"
         >
-          <a
+          <motion.a
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 400, damping: 15 }}
             href="#get-started"
             className="w-full sm:w-auto relative inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-base font-bold text-white overflow-hidden group shadow-lg shadow-[#3D4FE0]/25"
           >
@@ -130,14 +133,17 @@ export function Hero() {
               Start Your Free Trial
               <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
             </span>
-          </a>
-          <a
+          </motion.a>
+          <motion.a
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 400, damping: 15 }}
             href="#video"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.06] text-base font-semibold text-white transition-all duration-300 backdrop-blur-md"
           >
             <Play className="w-4 h-4 fill-white text-white" />
             Watch Product Demo
-          </a>
+          </motion.a>
         </motion.div>
 
         {/* 3. Dashboard Preview and Floating Cards */}

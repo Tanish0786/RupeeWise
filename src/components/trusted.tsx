@@ -23,13 +23,13 @@ export function Trusted() {
         </h2>
       </div>
 
-      <div className="relative flex w-full">
+      <div className="relative flex w-full overflow-hidden">
         {/* Left and Right glass gradient overlays to fade out the logos at edges */}
         <div className="absolute top-0 left-0 bottom-0 w-24 bg-gradient-to-r from-[#050816] to-transparent z-10 pointer-events-none" />
         <div className="absolute top-0 right-0 bottom-0 w-24 bg-gradient-to-l from-[#050816] to-transparent z-10 pointer-events-none" />
 
         {/* Auto Scrolling Track */}
-        <div className="flex gap-16 animate-scroll whitespace-nowrap min-w-full">
+        <div className="flex gap-16 animate-scroll whitespace-nowrap">
           {duplicatedLogos.map((logo, index) => (
             <div
               key={`${logo}-${index}`}

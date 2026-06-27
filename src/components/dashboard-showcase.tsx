@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { 
   TrendingUp, Wallet, ArrowUpRight, ArrowDownRight, 
@@ -7,7 +8,29 @@ import {
   Home, BarChart3, Clock, Settings, Sparkles
 } from "lucide-react";
 
+const TAB_PATHS: Record<string, { stroke: string; fill: string }> = {
+  "1W": {
+    stroke: "M0,35 Q20,38 40,25 T80,30 T100,20",
+    fill: "M0,35 Q20,38 40,25 T80,30 T100,20 L100,45 L0,45 Z"
+  },
+  "1M": {
+    stroke: "M0,40 Q12,35 25,22 T50,28 T75,10 T100,5",
+    fill: "M0,40 Q12,35 25,22 T50,28 T75,10 T100,5 L100,45 L0,45 Z"
+  },
+  "3M": {
+    stroke: "M0,42 Q25,30 50,15 T75,8 T100,2",
+    fill: "M0,42 Q25,30 50,15 T75,8 T100,2 L100,45 L0,45 Z"
+  },
+  "1Y": {
+    stroke: "M0,44 Q15,40 30,35 T60,25 T90,10 T100,1",
+    fill: "M0,44 Q15,40 30,35 T60,25 T90,10 T100,1 L100,45 L0,45 Z"
+  }
+};
+
 export function DashboardShowcase() {
+  const [activeTab, setActiveTab] = useState("1M");
+  const [activeNav, setActiveNav] = useState("Overview");
+
   return (
     <section className="relative py-28 bg-[#050816] px-6">
       {/* Top Background Glow */}
@@ -54,23 +77,27 @@ export function DashboardShowcase() {
                   {/* Sidebar Navigation */}
                   <nav className="flex flex-col gap-2 w-full">
                     {[
-                      { icon: Home, label: "Overview", active: true },
+                      { icon: Home, label: "Overview" },
                       { icon: BarChart3, label: "Analytics" },
                       { icon: Clock, label: "Activity" },
                       { icon: Settings, label: "Settings" }
-                    ].map((item, idx) => (
-                      <div
-                        key={idx}
-                        className={`flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-colors duration-200 ${
-                          item.active 
-                            ? "bg-[#3D4FE0]/15 text-white border-l-2 border-[#3D4FE0]" 
-                            : "text-[#94A3B8] hover:text-white hover:bg-white/[0.02]"
-                        }`}
-                      >
-                        <item.icon className="w-4 h-4 flex-shrink-0" />
-                        <span className="hidden md:inline font-medium">{item.label}</span>
-                      </div>
-                    ))}
+                    ].map((item, idx) => {
+                      const isActive = activeNav === item.label;
+                      return (
+                        <div
+                          key={idx}
+                          onClick={() => setActiveNav(item.label)}
+                          className={`flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-all duration-200 ${
+                            isActive 
+                              ? "bg-[#3D4FE0]/15 text-white border-l-2 border-[#3D4FE0]" 
+                              : "text-[#94A3B8] hover:text-white hover:bg-white/[0.02]"
+                          }`}
+                        >
+                          <item.icon className="w-4 h-4 flex-shrink-0" />
+                          <span className="hidden md:inline font-medium">{item.label}</span>
+                        </div>
+                      );
+                    })}
                   </nav>
                 </div>
 
@@ -135,12 +162,13 @@ export function DashboardShowcase() {
                   <div className="lg:col-span-2 p-5 rounded-xl border border-white/[0.04] bg-[#121826]/40 backdrop-blur-sm flex flex-col justify-between min-h-[220px]">
                     <div className="flex justify-between items-center mb-4">
                       <span className="text-xs font-bold text-white">Asset Performance Trend</span>
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 bg-[#050816] p-1 border border-white/[0.05] rounded-lg">
                         {["1W", "1M", "3M", "1Y"].map((t) => (
                           <span
                             key={t}
-                            className={`text-[10px] font-semibold px-2 py-0.5 rounded cursor-pointer ${
-                              t === "1M" ? "bg-[#3D4FE0] text-white" : "text-[#94A3B8] hover:text-white"
+                            onClick={() => setActiveTab(t)}
+                            className={`text-[10px] font-semibold px-2.5 py-1 rounded-md transition-colors cursor-pointer ${
+                              t === activeTab ? "bg-[#3D4FE0] text-white" : "text-[#94A3B8] hover:text-white"
                             }`}
                           >
                             {t}
@@ -158,15 +186,23 @@ export function DashboardShowcase() {
                             <stop offset="100%" stopColor="currentColor" stopOpacity="0.0" />
                           </linearGradient>
                         </defs>
-                        <path
-                          d="M0,40 Q12,35 25,22 T50,28 T75,10 T100,5"
+                        <motion.path
+                          key={activeTab + "-stroke"}
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={{ duration: 0.8 }}
+                          d={TAB_PATHS[activeTab].stroke}
                           fill="none"
                           stroke="currentColor"
                           strokeWidth="2.5"
                           strokeLinecap="round"
                         />
-                        <path
-                          d="M0,40 Q12,35 25,22 T50,28 T75,10 T100,5 L100,45 L0,45 Z"
+                        <motion.path
+                          key={activeTab + "-fill"}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.8 }}
+                          d={TAB_PATHS[activeTab].fill}
                           fill="url(#chartGlow)"
                         />
                       </svg>
