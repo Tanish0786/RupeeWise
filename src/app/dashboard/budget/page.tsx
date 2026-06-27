@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Wallet, Plus, Trash2, Sliders, AlertCircle, RefreshCw } from "lucide-react";
+import { Wallet, Plus, Trash2, Sliders, AlertCircle, RefreshCw, Sparkles, TrendingUp, DollarSign } from "lucide-react";
 
 interface Category {
   id: string;
@@ -25,6 +25,11 @@ export default function BudgetPage() {
   const [newName, setNewName] = useState("");
   const [newLimit, setNewLimit] = useState(10000);
 
+  // Calculates metrics
+  const totalLimit = categories.reduce((sum, c) => sum + c.limit, 0);
+  const totalSpent = categories.reduce((sum, c) => sum + c.spent, 0);
+  const remainingBalance = Math.max(0, totalLimit - totalSpent);
+
   const handleAddBudget = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newName.trim()) return;
@@ -32,7 +37,6 @@ export default function BudgetPage() {
     setIsLoading(true);
     setShowAddForm(false);
 
-    // Simulate network latency
     setTimeout(() => {
       const colors = ["bg-[#3D4FE0]", "bg-emerald-400", "bg-amber-500", "bg-purple-500"];
       const randomColor = colors[Math.floor(Math.random() * colors.length)];
@@ -49,7 +53,7 @@ export default function BudgetPage() {
       setNewName("");
       setNewLimit(10000);
       setIsLoading(false);
-    }, 1200);
+    }, 1000);
   };
 
   const handleDeleteBudget = (id: string) => {
@@ -82,11 +86,31 @@ export default function BudgetPage() {
         </button>
       </div>
 
+      {/* Summary KPI Cards */}
+      {categories.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md">
+            <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider">Total Cap Limit</span>
+            <h3 className="text-xl font-bold text-white mt-1">₹{totalLimit.toLocaleString()}</h3>
+          </div>
+          <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md">
+            <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider">Total Spent</span>
+            <h3 className="text-xl font-bold text-white mt-1">₹{totalSpent.toLocaleString()}</h3>
+          </div>
+          <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md">
+            <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider">Remaining Cap</span>
+            <h3 className="text-xl font-bold text-emerald-400 mt-1">₹{remainingBalance.toLocaleString()}</h3>
+          </div>
+        </div>
+      )}
+
+      {/* Grid Content */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Left main area */}
+        
+        {/* Main List */}
         <div className="md:col-span-2 flex flex-col gap-4">
           
-          {/* Add Form Modal Modal */}
+          {/* Add form */}
           {showAddForm && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -137,15 +161,15 @@ export default function BudgetPage() {
             </motion.div>
           )}
 
-          {/* Loading Skeleton */}
+          {/* Loader */}
           {isLoading && (
-            <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md flex flex-col gap-4">
-              <div className="h-4 bg-white/5 rounded-full animate-pulse w-1/3" />
-              <div className="h-2.5 bg-white/5 rounded-full animate-pulse w-full" />
+            <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md flex flex-col gap-4 animate-pulse">
+              <div className="h-4 bg-white/5 rounded-full w-1/3" />
+              <div className="h-2.5 bg-white/5 rounded-full w-full" />
             </div>
           )}
 
-          {/* Empty State */}
+          {/* Empty state */}
           {categories.length === 0 && !isLoading && (
             <div className="p-10 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md text-center flex flex-col items-center gap-4">
               <AlertCircle className="w-10 h-10 text-[#94A3B8]" />
@@ -166,17 +190,23 @@ export default function BudgetPage() {
             </div>
           )}
 
-          {/* Budgets Cards Panel */}
+          {/* Active Allocations Card */}
           {categories.length > 0 && (
             <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md flex flex-col gap-6">
               <h2 className="text-sm font-bold text-white mb-2">Category Allocations</h2>
               <div className="flex flex-col gap-6">
                 {categories.map((c) => {
                   const percentage = Math.min((c.spent / c.limit) * 100, 100);
+                  const isHighUsage = percentage > 85;
                   return (
                     <div key={c.id} className="flex flex-col gap-2.5 group">
                       <div className="flex justify-between items-center text-xs">
-                        <span className="font-bold text-[#CBD5E1]">{c.name}</span>
+                        <span className="font-bold text-[#CBD5E1] flex items-center gap-2">
+                          {c.name}
+                          {isHighUsage && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping" />
+                          )}
+                        </span>
                         <div className="flex items-center gap-3">
                           <span className="text-[#94A3B8] font-mono">
                             ₹{c.spent.toLocaleString()} / ₹{c.limit.toLocaleString()} ({percentage.toFixed(0)}%)
@@ -184,26 +214,24 @@ export default function BudgetPage() {
                           <button
                             onClick={() => handleDeleteBudget(c.id)}
                             className="text-[#94A3B8] hover:text-rose-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                            aria-label="Delete limit"
+                            aria-label="Delete budget limit"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       </div>
                       
-                      {/* Bar Indicator */}
                       <div className="w-full bg-white/5 h-2.5 rounded-full overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${percentage}%` }}
                           transition={{ duration: 0.6 }}
-                          className={`h-full ${c.color}`}
+                          className={`h-full ${isHighUsage ? "bg-rose-500" : c.color}`}
                         />
                       </div>
 
-                      {/* Slider Control to Change limit */}
                       <div className="flex items-center gap-2 pl-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Sliders className="w-3 h-3 text-[#94A3B8]" />
+                        <Sliders className="w-3.5 h-3.5 text-[#94A3B8]" />
                         <input
                           type="range"
                           min={Math.max(1000, c.spent)}
@@ -213,7 +241,7 @@ export default function BudgetPage() {
                           onChange={(e) => handleUpdateLimit(c.id, Number(e.target.value))}
                           className="w-40 h-1 bg-white/10 rounded-full appearance-none accent-[#3D4FE0] cursor-pointer"
                         />
-                        <span className="text-[9px] text-[#94A3B8]">Adjust Limit Cap</span>
+                        <span className="text-[9px] text-[#94A3B8]">Slide to Rebalance limit</span>
                       </div>
                     </div>
                   );
@@ -226,6 +254,19 @@ export default function BudgetPage() {
 
         {/* Sidebar right columns */}
         <div className="flex flex-col gap-6">
+          
+          {/* Baniya Smart Budget Recommendations */}
+          <div className="p-5 rounded-2xl border border-[#3D4FE0]/35 bg-[#3D4FE0]/5 relative overflow-hidden flex flex-col gap-3">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[#3D4FE0]/10 blur-[40px] rounded-full pointer-events-none" />
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[#3D4FE0]" />
+              <h3 className="text-xs font-bold text-white uppercase tracking-wider">Baniya Budget Advisory</h3>
+            </div>
+            <p className="text-xs text-[#CBD5E1] leading-relaxed">
+              &quot;Food & Dining is at 92% cap capacity with 10 days remaining in the billing period. I recommend allocating ₹5,000 from Travel & Lifestyle's surplus capacity to prevent overshooting.&quot;
+            </p>
+          </div>
+
           <div className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md">
             <h2 className="text-sm font-bold text-white mb-3">Auto-Rebalance Rules</h2>
             <p className="text-xs text-[#94A3B8] leading-relaxed mb-4">
@@ -235,7 +276,9 @@ export default function BudgetPage() {
               Manage Smart Rules
             </button>
           </div>
+
         </div>
+
       </div>
     </div>
   );
