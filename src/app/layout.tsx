@@ -35,7 +35,20 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-[#050816] text-[#F8FAFC]">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.getItem('theme') === 'light') {
+                  document.documentElement.classList.add('light');
+                }
+              } catch (_) {}
+            `
+          }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col bg-brand-bg text-brand-primary">
         <SmoothScroll>
           {children}
         </SmoothScroll>

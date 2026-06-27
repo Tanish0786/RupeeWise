@@ -127,3 +127,43 @@ body {
   background-size: 200% 200%;
 }
 
+/* Light mode overrides for hardcoded Tailwind hex classes */
+:root.light {
+  /* Background colors */
+  .bg-\[\#050816\],
+  .bg-brand-bg {
+    background-color: var(--brand-bg) !important;
+  }
+  .bg-\[\#121826\],
+  .bg-brand-card {
+    background-color: var(--brand-card) !important;
+  }
+  .bg-\[\#0B1020\],
+  .bg-brand-section {
+    background-color: var(--brand-section) !important;
+  }
+
+  /* Text colors */
+  .text-\[\#F8FAFC\],
+  .text-brand-primary {
+    color: var(--brand-primary) !important;
+  }
+  .text-\[\#CBD5E1\],
+  .text-brand-secondary {
+    color: var(--brand-secondary) !important;
+  }
+  .text-\[\#94A3B8\],
+  .text-brand-muted {
+    color: var(--brand-muted) !important;
+  }
+
+  /* Border colors */
+  .border-white\/\[0\.03\],
+  .border-white\/\[0\.04\],
+  .border-white\/\[0\.05\],
+  .border-white\/\[0\.08\] {
+    border-color: var(--glass-border) !important;
+  }
+}
+
+

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TrendingUp, Menu, X, ArrowRight } from "lucide-react";
+import { TrendingUp, Menu, X, ArrowRight, Sun, Moon } from "lucide-react";
 
 const NAV_LINKS = [
   { name: "Features", href: "#features" },
@@ -16,6 +16,25 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  // Initialize theme from localStorage on load
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    setIsDarkMode(savedTheme !== "light");
+  }, []);
+
+  const toggleTheme = () => {
+    const nextDark = !isDarkMode;
+    setIsDarkMode(nextDark);
+    if (nextDark) {
+      document.documentElement.classList.remove("light");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.add("light");
+      localStorage.setItem("theme", "light");
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -99,6 +118,13 @@ export function Navbar() {
 
         {/* CTA Buttons */}
         <div className="hidden md:flex items-center gap-4">
+          <button
+            onClick={toggleTheme}
+            className="p-2.5 rounded-xl border border-white/[0.05] bg-[#121826]/40 hover:bg-[#121826]/80 text-[#94A3B8] hover:text-white transition-colors cursor-pointer"
+            aria-label="Toggle theme"
+          >
+            {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
           <a
             href="#login"
             className="text-sm font-semibold text-[#CBD5E1] hover:text-white transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3D4FE0] rounded-md px-2 py-1"
