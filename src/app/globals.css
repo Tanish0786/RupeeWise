@@ -139,6 +139,25 @@ body {
   [class*="bg-[#"]:not([class*="#3D4FE0"]):not([class*="#3d4fe0"]),
   [class*="bg-white/"],
   [class*="bg-white/["],
+  .bg-slate-950,
+  .bg-slate-900,
+  .bg-slate-850,
+  .bg-slate-800,
+  .bg-gray-950,
+  .bg-gray-900,
+  .bg-gray-800,
+  .bg-zinc-950,
+  .bg-zinc-900,
+  .bg-zinc-800,
+  .bg-neutral-950,
+  .bg-neutral-900,
+  .bg-neutral-800,
+  .bg-black,
+  .bg-black\/50,
+  .bg-black\/80,
+  .bg-black\/90,
+  .bg-indigo-950,
+  .bg-indigo-900,
   .bg-brand-card {
     background-color: var(--brand-card) !important;
     background-image: none !important;
@@ -147,6 +166,10 @@ body {
 
   /* Map the main wrapper/body backgrounds to slate off-white #F8FAFC */
   body,
+  .bg-slate-950.min-h-screen,
+  body.bg-slate-950,
+  body.bg-black,
+  .min-h-screen.bg-slate-950,
   .bg-\[\#050816\],
   [class*="bg-[#050816]"],
   .bg-brand-bg {
@@ -156,6 +179,9 @@ body {
 
   /* Map section background to F1F5F9 */
   .bg-brand-section,
+  .bg-slate-900\/50,
+  .bg-slate-900\/60,
+  .bg-slate-900\/40,
   [class*="bg-[#0B1020]"] {
     background-color: var(--brand-section) !important;
     background-image: none !important;
@@ -163,19 +189,63 @@ body {
 
   /* Force all border classes containing white/ to map to E2E8F0 */
   [class*="border-white/"],
-  .border-brand-border {
+  .border-brand-border,
+  .border-slate-900,
+  .border-slate-800,
+  .border-slate-700,
+  .border-gray-900,
+  .border-gray-800,
+  .border-gray-700,
+  .border-zinc-900,
+  .border-zinc-800,
+  .border-zinc-700,
+  .border-neutral-900,
+  .border-neutral-800,
+  .border-neutral-700,
+  .border-white\/10,
+  .border-white\/20,
+  .border-white\/5 {
     border-color: var(--glass-border) !important;
   }
 
   /* Text color corrections for hardcoded dark classes */
   [class*="text-[#CBD5E1]"],
   [class*="text-[#F8FAFC]"],
+  .text-white,
+  .text-slate-50,
+  .text-slate-100,
+  .text-slate-200,
+  .text-slate-300,
+  .text-slate-400,
+  .text-gray-50,
+  .text-gray-100,
+  .text-gray-200,
+  .text-gray-300,
+  .text-gray-400,
+  .text-zinc-50,
+  .text-zinc-100,
+  .text-zinc-200,
+  .text-zinc-300,
+  .text-zinc-400,
+  .text-neutral-50,
+  .text-neutral-100,
+  .text-neutral-200,
+  .text-neutral-300,
+  .text-neutral-400,
+  .text-indigo-100,
+  .text-indigo-200,
+  .text-indigo-300,
+  .text-indigo-400,
   .text-brand-secondary,
   .text-brand-primary {
     color: var(--brand-primary) !important;
   }
 
   [class*="text-[#94A3B8]"],
+  .text-slate-400,
+  .text-gray-400,
+  .text-zinc-400,
+  .text-neutral-400,
   .text-brand-muted {
     color: var(--brand-muted) !important;
   }
@@ -202,7 +272,10 @@ body {
   .bg-\[\#3D4FE0\] *,
   .bg-primary-indigo *,
   .w-10.h-10.rounded-xl.bg-\[\#3D4FE0\] *,
-  .w-9.h-9.rounded-xl.bg-\[\#3D4FE0\] * {
+  .w-9.h-9.rounded-xl.bg-\[\#3D4FE0\] *,
+  [class*="bg-[#3D4FE0]"] *,
+  .bg-emerald-500 *,
+  .bg-rose-500 * {
     color: #FFFFFF !important;
   }
 
