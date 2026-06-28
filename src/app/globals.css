@@ -135,65 +135,49 @@ body {
 /* Light mode overrides for hardcoded Tailwind hex classes */
 :root.light {
 
-  /* Background overrides - map ALL opacity variants of #121826 and #0B1020 to pure white card background */
-  .bg-\[\#121826\],
-  .bg-\[\#121826\]\/65,
-  .bg-\[\#121826\]\/40,
-  .bg-\[\#0B1020\],
-  .bg-\[\#0B1020\]\/90,
-  .bg-\[\#0B1020\]\/80,
-  .bg-\[\#0B1020\]\/70,
-  .bg-white\/5,
-  .bg-white\/10,
-  .bg-white\/\[0\.01\],
-  .bg-white\/\[0\.02\],
-  .bg-white\/\[0\.03\],
-  .bg-white\/\[0\.04\],
-  .bg-white\/\[0\.05\],
-  .bg-white\/\[0\.08\],
+  /* Bulletproof substring overrides - maps ANY hardcoded dark background hex or white translucent backdrop (except brand indigo #3D4FE0) to solid white card */
+  [class*="bg-[#"]:not([class*="#3D4FE0"]):not([class*="#3d4fe0"]),
+  [class*="bg-white/"],
+  [class*="bg-white/["],
   .bg-brand-card {
     background-color: var(--brand-card) !important;
     background-image: none !important;
+    color: var(--brand-primary) !important;
   }
 
-  /* Map ALL variants of #050816 to warm off-white background */
+  /* Map the main wrapper/body backgrounds to slate off-white #F8FAFC */
+  body,
   .bg-\[\#050816\],
-  .bg-\[\#050816\]\/90,
+  [class*="bg-[#050816]"],
   .bg-brand-bg {
     background-color: var(--brand-bg) !important;
     background-image: none !important;
   }
 
-  /* Map standard section classes to light gray section background */
-  .bg-brand-section {
+  /* Map section background to F1F5F9 */
+  .bg-brand-section,
+  [class*="bg-[#0B1020]"] {
     background-color: var(--brand-section) !important;
     background-image: none !important;
   }
 
-  /* Text colors */
-  .text-\[\#F8FAFC\],
+  /* Force all border classes containing white/ to map to E2E8F0 */
+  [class*="border-white/"],
+  .border-brand-border {
+    border-color: var(--glass-border) !important;
+  }
+
+  /* Text color corrections for hardcoded dark classes */
+  [class*="text-[#CBD5E1]"],
+  [class*="text-[#F8FAFC]"],
+  .text-brand-secondary,
   .text-brand-primary {
     color: var(--brand-primary) !important;
   }
 
-  .text-\[\#CBD5E1\],
-  .text-brand-secondary {
-    color: var(--brand-secondary) !important;
-  }
-
-  .text-\[\#94A3B8\],
+  [class*="text-[#94A3B8]"],
   .text-brand-muted {
     color: var(--brand-muted) !important;
-  }
-
-  /* Border colors - force ALL escape sequences for borders to soft light grey */
-  .border-white\/\[0\.03\],
-  .border-white\/\[0\.04\],
-  .border-white\/\[0\.05\],
-  .border-white\/\[0\.08\],
-  .border-white\/5,
-  .border-white\/10 {
-    border-color: var(--glass-border) !important;
   }
 
   /* Force all standard text characters and headers to turn dark slate by default */
