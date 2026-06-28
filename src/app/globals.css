@@ -135,20 +135,39 @@ body {
 /* Light mode overrides for hardcoded Tailwind hex classes */
 :root.light {
 
-  /* Background colors */
-  .bg-\[\#050816\],
-  .bg-brand-bg {
-    background-color: var(--brand-bg) !important;
-  }
-
+  /* Background overrides - map ALL opacity variants of #121826 and #0B1020 to pure white card background */
   .bg-\[\#121826\],
+  .bg-\[\#121826\]\/65,
+  .bg-\[\#121826\]\/40,
+  .bg-\[\#0B1020\],
+  .bg-\[\#0B1020\]\/90,
+  .bg-\[\#0B1020\]\/80,
+  .bg-\[\#0B1020\]\/70,
+  .bg-white\/5,
+  .bg-white\/10,
+  .bg-white\/\[0\.01\],
+  .bg-white\/\[0\.02\],
+  .bg-white\/\[0\.03\],
+  .bg-white\/\[0\.04\],
+  .bg-white\/\[0\.05\],
+  .bg-white\/\[0\.08\],
   .bg-brand-card {
     background-color: var(--brand-card) !important;
+    background-image: none !important;
   }
 
-  .bg-\[\#0B1020\],
+  /* Map ALL variants of #050816 to warm off-white background */
+  .bg-\[\#050816\],
+  .bg-\[\#050816\]\/90,
+  .bg-brand-bg {
+    background-color: var(--brand-bg) !important;
+    background-image: none !important;
+  }
+
+  /* Map standard section classes to light gray section background */
   .bg-brand-section {
     background-color: var(--brand-section) !important;
+    background-image: none !important;
   }
 
   /* Text colors */
@@ -167,11 +186,13 @@ body {
     color: var(--brand-muted) !important;
   }
 
-  /* Border colors */
+  /* Border colors - force ALL escape sequences for borders to soft light grey */
   .border-white\/\[0\.03\],
   .border-white\/\[0\.04\],
   .border-white\/\[0\.05\],
-  .border-white\/\[0\.08\] {
+  .border-white\/\[0\.08\],
+  .border-white\/5,
+  .border-white\/10 {
     border-color: var(--glass-border) !important;
   }
 
