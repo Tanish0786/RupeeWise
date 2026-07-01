@@ -250,23 +250,7 @@ body {
     color: var(--brand-muted) !important;
   }
 
-  /* Force all standard text characters and headers to turn dark slate by default */
-  body,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  span,
-  a,
-  div,
-  li,
-  input {
-    color: var(--brand-primary);
-    transition: color 0.3s ease;
-  }
+
 
   /* Keep specific light text on primary brand buttons, badges or custom inputs active white */
   .bg-\[\#3D4FE0\] *,
