@@ -15,8 +15,7 @@ import {
   ShieldCheck, 
   Zap,
   ChevronRight,
-  Sparkles,
-  ArrowUpRight
+  Sparkles
 } from "lucide-react";
 import Link from "next/link";
 
@@ -255,11 +254,11 @@ function AuthWorkspace() {
           </div>
         </div>
 
-        {/* Authentication Card (Perfectly Centered Vertically & Horizontally) */}
-        <div className="my-auto w-full max-w-md mx-auto flex flex-col gap-8 relative z-10">
+        {/* Authentication Card (Perfected alignment & larger width) */}
+        <div className="my-auto w-full max-w-lg mx-auto flex flex-col gap-8 relative z-10">
           
-          {/* Header Title with animated text transitions */}
-          <div className="text-center sm:text-left">
+          {/* Header Title Centered */}
+          <div className="text-center">
             <h2 className="text-3xl font-extrabold text-[#0F172A] tracking-tight">
               {activeTab === "signin" ? "Welcome back" : "Create your account"}
             </h2>
@@ -271,7 +270,7 @@ function AuthWorkspace() {
           </div>
 
           {/* Core Authenticator Card */}
-          <div className="bg-white border border-[#E2E8F0] p-6 sm:p-8 rounded-2xl shadow-xl shadow-slate-200/40 flex flex-col gap-6">
+          <div className="bg-white border border-[#E2E8F0] p-8 sm:p-10 rounded-2xl shadow-xl shadow-slate-200/40 flex flex-col gap-8">
             
             {/* Tab Selector */}
             <div className="grid grid-cols-2 bg-[#F1F5F9] p-1 border border-[#E2E8F0] rounded-xl relative">
@@ -280,7 +279,7 @@ function AuthWorkspace() {
                   setActiveTab("signin");
                   setError("");
                 }}
-                className={`py-2 text-xs font-bold uppercase tracking-wider transition-all duration-200 rounded-lg cursor-pointer ${
+                className={`py-2.5 text-xs font-bold uppercase tracking-wider transition-all duration-200 rounded-lg cursor-pointer ${
                   activeTab === "signin" 
                     ? "bg-white text-[#0F172A] shadow-sm" 
                     : "text-[#64748B] hover:text-[#0F172A]"
@@ -293,7 +292,7 @@ function AuthWorkspace() {
                   setActiveTab("signup");
                   setError("");
                 }}
-                className={`py-2 text-xs font-bold uppercase tracking-wider transition-all duration-200 rounded-lg cursor-pointer ${
+                className={`py-2.5 text-xs font-bold uppercase tracking-wider transition-all duration-200 rounded-lg cursor-pointer ${
                   activeTab === "signup" 
                     ? "bg-white text-[#0F172A] shadow-sm" 
                     : "text-[#64748B] hover:text-[#0F172A]"
@@ -304,7 +303,7 @@ function AuthWorkspace() {
             </div>
 
             {/* Inputs Form */}
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
               
               {error && (
                 <div className="text-xs text-rose-600 bg-rose-50 border border-rose-100 px-3.5 py-3 rounded-xl font-medium">
@@ -323,8 +322,8 @@ function AuthWorkspace() {
                     className="flex flex-col gap-1.5 overflow-hidden"
                   >
                     <label className="text-xs font-bold text-[#0F172A] uppercase tracking-wider">Full Name</label>
-                    <div className="relative">
-                      <span className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-[#64748B]">
+                    <div className="relative flex items-center">
+                      <span className="absolute left-4 z-10 flex items-center pointer-events-none text-[#64748B]">
                         <User className="w-4 h-4" />
                       </span>
                       <input
@@ -332,7 +331,8 @@ function AuthWorkspace() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="John Doe"
-                        className="w-full h-12 pl-12 pr-4 rounded-xl border border-[#E2E8F0] bg-white text-sm text-[#0F172A] placeholder-[#64748B] focus:outline-none focus:border-[#3D4FE0] focus:ring-1 focus:ring-[#3D4FE0]/25 transition-all"
+                        style={{ paddingLeft: "3rem" }}
+                        className="w-full h-12 pr-4 rounded-xl border border-[#E2E8F0] bg-white text-sm text-[#0F172A] placeholder-[#64748B] focus:outline-none focus:border-[#0F172A] focus:ring-1 focus:ring-[#0F172A]/10 transition-all"
                       />
                     </div>
                   </motion.div>
@@ -342,8 +342,8 @@ function AuthWorkspace() {
               {/* Email Field */}
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-bold text-[#0F172A] uppercase tracking-wider">Email Address</label>
-                <div className="relative">
-                  <span className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-[#64748B]">
+                <div className="relative flex items-center">
+                  <span className="absolute left-4 z-10 flex items-center pointer-events-none text-[#64748B]">
                     <Mail className="w-4 h-4" />
                   </span>
                   <input
@@ -351,7 +351,8 @@ function AuthWorkspace() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@company.com"
-                    className="w-full h-12 pl-12 pr-4 rounded-xl border border-[#E2E8F0] bg-white text-sm text-[#0F172A] placeholder-[#64748B] focus:outline-none focus:border-[#3D4FE0] focus:ring-1 focus:ring-[#3D4FE0]/25 transition-all"
+                    style={{ paddingLeft: "3rem" }}
+                    className="w-full h-12 pr-4 rounded-xl border border-[#E2E8F0] bg-white text-sm text-[#0F172A] placeholder-[#64748B] focus:outline-none focus:border-[#0F172A] focus:ring-1 focus:ring-[#0F172A]/10 transition-all"
                   />
                 </div>
               </div>
@@ -363,14 +364,14 @@ function AuthWorkspace() {
                   {activeTab === "signin" && (
                     <Link
                       href="/forgot-password"
-                      className="text-xs text-[#3D4FE0] hover:text-[#3D4FE0]/80 font-bold tracking-tight"
+                      className="text-xs text-[#0F172A] hover:underline font-bold tracking-tight"
                     >
                       Forgot Password?
                     </Link>
                   )}
                 </div>
-                <div className="relative">
-                  <span className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-[#64748B]">
+                <div className="relative flex items-center">
+                  <span className="absolute left-4 z-10 flex items-center pointer-events-none text-[#64748B]">
                     <Lock className="w-4 h-4" />
                   </span>
                   <input
@@ -378,12 +379,13 @@ function AuthWorkspace() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full h-12 pl-12 pr-12 rounded-xl border border-[#E2E8F0] bg-white text-sm text-[#0F172A] placeholder-[#64748B] focus:outline-none focus:border-[#3D4FE0] focus:ring-1 focus:ring-[#3D4FE0]/25 transition-all"
+                    style={{ paddingLeft: "3rem", paddingRight: "3rem" }}
+                    className="w-full h-12 rounded-xl border border-[#E2E8F0] bg-white text-sm text-[#0F172A] placeholder-[#64748B] focus:outline-none focus:border-[#0F172A] focus:ring-1 focus:ring-[#0F172A]/10 transition-all"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-4 flex items-center text-[#64748B] hover:text-[#0F172A]"
+                    className="absolute right-4 z-10 flex items-center text-[#64748B] hover:text-[#0F172A]"
                   >
                     {showPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
                   </button>
@@ -398,15 +400,15 @@ function AuthWorkspace() {
                     id="terms"
                     checked={terms}
                     onChange={(e) => setTerms(e.target.checked)}
-                    className="mt-1 accent-[#3D4FE0] w-4 h-4 rounded border-[#E2E8F0]"
+                    className="mt-1 accent-[#0F172A] w-4 h-4 rounded border-[#E2E8F0]"
                   />
                   <label htmlFor="terms" className="text-xs text-[#64748B] leading-relaxed">
                     I agree to the{" "}
-                    <Link href="/terms" className="text-[#3D4FE0] font-bold hover:underline">
+                    <Link href="/terms" className="text-[#0F172A] font-bold hover:underline">
                       Terms of Service
                     </Link>{" "}
                     and{" "}
-                    <Link href="/privacy" className="text-[#3D4FE0] font-bold hover:underline">
+                    <Link href="/privacy" className="text-[#0F172A] font-bold hover:underline">
                       Privacy Policy
                     </Link>
                     .
@@ -414,11 +416,11 @@ function AuthWorkspace() {
                 </div>
               )}
 
-              {/* Submit Button */}
+              {/* Submit Button (NOT blue, luxury dark slate #0F172A) */}
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full h-12 rounded-xl bg-[#3D4FE0] text-sm font-bold text-white flex items-center justify-center gap-2 hover:bg-[#3D4FE0]/90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-2 cursor-pointer shadow-md shadow-[#3D4FE0]/15"
+                className="w-full h-12 rounded-xl bg-[#0F172A] hover:bg-[#1E293B] text-sm font-bold text-white flex items-center justify-center gap-2 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-2 cursor-pointer shadow-md shadow-slate-200"
               >
                 {isLoading ? (
                   <div className="w-5 h-5 border-2 border-white/35 border-t-white rounded-full animate-spin" />
@@ -466,7 +468,7 @@ function AuthWorkspace() {
             {/* Skip for Now */}
             <button
               onClick={() => router.push("/dashboard")}
-              className="w-full py-3 rounded-xl border border-dashed border-[#3D4FE0]/20 hover:border-[#3D4FE0] text-xs font-bold text-[#3D4FE0] flex items-center justify-center gap-1.5 cursor-pointer transition-colors bg-[#3D4FE0]/5"
+              className="w-full py-3 rounded-xl border border-dashed border-[#0F172A]/10 hover:border-[#0F172A] text-xs font-bold text-[#0F172A] flex items-center justify-center gap-1.5 cursor-pointer transition-colors bg-slate-50"
             >
               Skip for Now (Explore App)
               <ChevronRight className="w-3.5 h-3.5" />
