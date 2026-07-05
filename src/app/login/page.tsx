@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  TrendingUp, 
   Eye, 
   EyeOff, 
   Mail, 
@@ -23,13 +23,11 @@ function AuthWorkspace() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   // Switch between "signin" and "signup"
-  const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
+  const [activeTab, setActiveTab] = useState<"signin" | "signup">(() => {
+    const tabParam = searchParams.get("tab");
+    return tabParam === "register" || tabParam === "signup" ? "signup" : "signin";
+  });
 
   // Input states
   const [name, setName] = useState("");
@@ -39,24 +37,6 @@ function AuthWorkspace() {
   const [terms, setTerms] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  // Sync tab status with query parameter if present
-  useEffect(() => {
-    const tabParam = searchParams.get("tab");
-    if (tabParam === "register" || tabParam === "signup") {
-      setActiveTab("signup");
-    } else {
-      setActiveTab("signin");
-    }
-  }, [searchParams]);
-
-  if (!mounted) {
-    return (
-      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center text-xs text-[#64748B]">
-        Loading Auth Console...
-      </div>
-    );
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,7 +72,7 @@ function AuthWorkspace() {
     }, 1500);
   };
 
-  const handleSocialAuth = (platform: string) => {
+  const handleSocialAuth = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
@@ -117,7 +97,7 @@ function AuthWorkspace() {
 
         {/* Brand Header */}
         <div className="flex items-center gap-3 relative z-10">
-          <img src="/icon.png" alt="RupeeWise Logo" className="w-11 h-11 rounded-xl shadow-lg shadow-[#3D4FE0]/25 object-cover" />
+          <Image src="/icon.png" alt="RupeeWise Logo" width={44} height={44} className="w-11 h-11 rounded-xl shadow-lg shadow-[#3D4FE0]/25 object-cover" priority />
           <span className="font-bold text-2xl tracking-tight text-[#0F172A]">
             Rupee<span className="font-medium text-[#64748B]">Wise</span>
           </span>
@@ -214,7 +194,7 @@ function AuthWorkspace() {
         {/* Mobile Header (Absolute top positioning for small screens only) */}
         <div className="absolute top-6 left-4 right-4 sm:top-8 sm:left-8 sm:right-8 flex lg:hidden justify-between items-center z-20">
           <div className="flex items-center gap-2">
-            <img src="/icon.png" alt="RupeeWise Logo" className="w-9 h-9 rounded-lg shadow-md object-cover" />
+            <Image src="/icon.png" alt="RupeeWise Logo" width={36} height={36} className="w-9 h-9 rounded-lg shadow-md object-cover" priority />
             <span className="font-bold text-lg tracking-tight text-[#0F172A]">
               RupeeWise
             </span>
@@ -417,7 +397,7 @@ function AuthWorkspace() {
             {/* Social Logins */}
             <div className="grid grid-cols-2 gap-3">
               <button
-                onClick={() => handleSocialAuth("google")}
+                onClick={handleSocialAuth}
                 disabled={isLoading}
                 style={{ height: "3.25rem" }}
                 className="rounded-xl border border-[#E2E8F0] bg-white text-sm font-semibold text-[#0F172A] flex items-center justify-center gap-2 hover:bg-slate-50 hover:border-[#CBD5E1] transition-all cursor-pointer"
@@ -428,7 +408,7 @@ function AuthWorkspace() {
                 Google
               </button>
               <button
-                onClick={() => handleSocialAuth("github")}
+                onClick={handleSocialAuth}
                 disabled={isLoading}
                 style={{ height: "3.25rem" }}
                 className="rounded-xl border border-[#E2E8F0] bg-white text-sm font-semibold text-[#0F172A] flex items-center justify-center gap-2 hover:bg-slate-50 hover:border-[#CBD5E1] transition-all cursor-pointer"
