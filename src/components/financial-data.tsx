@@ -10,6 +10,12 @@ export type FinancialProfile = {
   liabilities: number;
   goalName: string;
   goalAmount: number;
+  expenses: {
+    housing: number; food: number; transport: number; utilities: number; lifestyle: number; other: number;
+  };
+  investmentAllocation: {
+    equity: number; fixedIncome: number; cash: number; other: number;
+  };
 };
 
 type FinancialDataContextValue = {
@@ -31,7 +37,12 @@ export function FinancialDataProvider({ children }: { children: React.ReactNode 
       const stored = window.localStorage.getItem(STORAGE_KEY);
       if (stored) {
         try {
-          setProfile(JSON.parse(stored) as FinancialProfile);
+          const parsed = JSON.parse(stored) as FinancialProfile;
+          setProfile({
+            ...parsed,
+            expenses: parsed.expenses || { housing: 0, food: 0, transport: 0, utilities: 0, lifestyle: 0, other: parsed.monthlyExpenses || 0 },
+            investmentAllocation: parsed.investmentAllocation || { equity: 0, fixedIncome: 0, cash: 0, other: parsed.investments || 0 },
+          });
         } catch {
           window.localStorage.removeItem(STORAGE_KEY);
         }

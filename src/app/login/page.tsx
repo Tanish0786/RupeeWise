@@ -85,7 +85,7 @@ function AuthWorkspace() {
       
       {/* LEFT SIDE: Cinematic Fintech Showcase with Generous Padding */}
       <div
-        className="hidden lg:flex lg:w-1/2 bg-[#F1F5F9] border-r border-[#E2E8F0] relative overflow-hidden flex-col justify-between select-none px-10 xl:px-16 py-16 xl:py-20"
+        className="hidden lg:flex lg:w-1/2 bg-[#F1F5F9] border-r border-[#E2E8F0] relative overflow-hidden flex-col justify-between select-none pl-20 pr-12 xl:pl-28 xl:pr-16 py-16 xl:py-20"
       >
         
         {/* Soft background grid & premium ambient gradient animation */}

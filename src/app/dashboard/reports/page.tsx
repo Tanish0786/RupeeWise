@@ -1,23 +1,4 @@
 "use client";
-
-import { useState } from "react";
-import { FileUp, LockKeyhole, Upload } from "lucide-react";
-
-export default function ReportsPage() {
-  const [file, setFile] = useState<File | null>(null);
-  return <div className="dashboard-page">
-    <div><h1 className="text-2xl font-bold text-white">Statements & reports</h1><p className="text-xs text-[#94A3B8] mt-2">Reports are created only from documents you provide.</p></div>
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <label className="lg:col-span-2 min-h-[22rem] rounded-2xl border border-dashed border-white/[0.12] bg-[#121826]/35 flex flex-col items-center justify-center text-center p-6 sm:p-10 cursor-pointer hover:border-[#3D4FE0]/60 transition-colors">
-        <input type="file" accept=".pdf,.csv,.xlsx,.xls" className="sr-only" onChange={(event)=>setFile(event.target.files?.[0] || null)} />
-        <div className="w-12 h-12 rounded-2xl bg-[#3D4FE0]/10 text-[#3D4FE0] flex items-center justify-center"><Upload className="w-6 h-6" /></div>
-        <h2 className="text-sm font-bold text-white mt-5">{file ? file.name : "Upload your first statement"}</h2>
-        <p className="text-xs text-[#94A3B8] mt-2 max-w-md">{file ? "Your file is selected. Connect a secure processing service before importing it into production." : "Choose a PDF, CSV, or spreadsheet. No sample statement or report is loaded."}</p>
-        <span className="mt-5 h-10 px-4 rounded-xl bg-[#3D4FE0] text-xs font-bold text-white inline-flex items-center gap-2"><FileUp className="w-4 h-4" /> Choose file</span>
-      </label>
-      <div className="rounded-2xl border border-white/[0.05] bg-[#121826]/65 p-6 h-fit">
-        <LockKeyhole className="w-5 h-5 text-[#3D4FE0]" /><h2 className="text-sm font-bold text-white mt-4">No generated reports</h2><p className="text-xs text-[#94A3B8] mt-2 leading-relaxed">Monthly summaries, tax views, and downloadable reports will appear here after your own data is securely processed.</p>
-      </div>
-    </div>
-  </div>;
-}
+import { Download, FileText } from "lucide-react";
+import { formatINR,useFinancialData } from "@/components/financial-data";
+export default function ReportsPage(){const {profile}=useFinancialData();if(!profile)return null;const surplus=profile.monthlyIncome-profile.monthlyExpenses;const netWorth=profile.savings+profile.investments-profile.liabilities;const rows=[{label:"Declared monthly income",value:profile.monthlyIncome},{label:"Declared monthly expenses",value:profile.monthlyExpenses},{label:"Monthly surplus",value:surplus},{label:"Savings",value:profile.savings},{label:"Investments",value:profile.investments},{label:"Liabilities",value:profile.liabilities},{label:"Estimated net worth",value:netWorth}];return <div className="dashboard-page"><div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4"><div><h1 className="text-2xl font-bold text-white">Financial report</h1><p className="text-xs text-[#94A3B8] mt-2">A live summary of the information you declared.</p></div><button onClick={()=>window.print()} className="h-10 px-4 rounded-xl border border-white/[0.08] text-xs font-bold text-white inline-flex items-center justify-center gap-2"><Download className="w-4 h-4" /> Print or save PDF</button></div><div className="rounded-2xl border border-white/[0.05] bg-[#121826]/65 overflow-hidden"><div className="p-6 border-b border-white/[0.05] flex items-center gap-3"><FileText className="w-5 h-5 text-[#3D4FE0]"/><div><h2 className="text-sm font-bold text-white">Personal financial statement</h2><p className="text-[10px] text-[#94A3B8] mt-1">Self-declared values · no documents required</p></div></div><div>{rows.map(row=><div key={row.label} className="px-6 py-4 flex justify-between gap-4 border-b last:border-0 border-white/[0.04]"><span className="text-xs text-[#94A3B8]">{row.label}</span><span className="text-xs font-bold text-white">{formatINR(row.value)}</span></div>)}</div></div></div>}

@@ -6,12 +6,14 @@ import { FinancialProfile, useFinancialData } from "./financial-data";
 
 const fields: Array<{ key: keyof FinancialProfile; label: string; hint: string; optional?: boolean }> = [
   { key: "monthlyIncome", label: "Monthly income", hint: "Salary, business income, and other regular inflows" },
-  { key: "monthlyExpenses", label: "Monthly expenses", hint: "Your typical total monthly spending" },
   { key: "savings", label: "Current savings", hint: "Cash, bank deposits, and emergency funds" },
-  { key: "investments", label: "Current investments", hint: "Funds, stocks, bonds, retirement accounts, and other assets" },
   { key: "liabilities", label: "Outstanding liabilities", hint: "Loans, credit cards, and other debt" },
   { key: "goalAmount", label: "Primary goal amount", hint: "The amount you want to build toward", optional: true },
 ];
+
+const expenseFields = ["housing", "food", "transport", "utilities", "lifestyle", "other"] as const;
+const investmentFields = ["equity", "fixedIncome", "cash", "other"] as const;
+const labels: Record<string, string> = { housing: "Housing", food: "Food", transport: "Transport", utilities: "Utilities", lifestyle: "Lifestyle", other: "Other", equity: "Equity", fixedIncome: "Fixed income", cash: "Cash & deposits" };
 
 export function FinancialOnboarding() {
   const { saveProfile } = useFinancialData();
@@ -26,14 +28,18 @@ export function FinancialOnboarding() {
       return;
     }
 
+    const expenses = Object.fromEntries(expenseFields.map((key) => [key, Number(values[`expense_${key}`] || 0)])) as FinancialProfile["expenses"];
+    const investmentAllocation = Object.fromEntries(investmentFields.map((key) => [key, Number(values[`investment_${key}`] || 0)])) as FinancialProfile["investmentAllocation"];
     saveProfile({
       monthlyIncome: Number(values.monthlyIncome || 0),
-      monthlyExpenses: Number(values.monthlyExpenses || 0),
+      monthlyExpenses: Object.values(expenses).reduce((sum, value) => sum + value, 0),
       savings: Number(values.savings || 0),
-      investments: Number(values.investments || 0),
+      investments: Object.values(investmentAllocation).reduce((sum, value) => sum + value, 0),
       liabilities: Number(values.liabilities || 0),
       goalName: values.goalName?.trim() || "",
       goalAmount: Number(values.goalAmount || 0),
+      expenses,
+      investmentAllocation,
     });
   };
 
@@ -70,6 +76,10 @@ export function FinancialOnboarding() {
               <span className="text-[11px] text-[#64748B]">{field.hint}</span>
             </label>
           ))}
+          <div className="sm:col-span-2 pt-2"><h2 className="text-sm font-bold text-white">Monthly expenses</h2><p className="text-[11px] text-[#64748B] mt-1">Enter only what you want reflected in budgets and charts.</p></div>
+          {expenseFields.map((key) => <label key={`expense_${key}`} className="flex flex-col gap-2"><span className="text-xs font-semibold text-[#CBD5E1]">{labels[key]}</span><div className="relative"><span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#64748B]">₹</span><input type="number" min="0" value={values[`expense_${key}`] || ""} onChange={(event)=>setValues(current=>({...current,[`expense_${key}`]:event.target.value}))} className="w-full h-12 pl-9 pr-4 rounded-xl border border-white/[0.06] bg-[#050816] text-sm text-white focus:outline-none focus:border-[#3D4FE0]" /></div></label>)}
+          <div className="sm:col-span-2 pt-2"><h2 className="text-sm font-bold text-white">Investment allocation</h2><p className="text-[11px] text-[#64748B] mt-1">These declared balances power your portfolio allocation.</p></div>
+          {investmentFields.map((key) => <label key={`investment_${key}`} className="flex flex-col gap-2"><span className="text-xs font-semibold text-[#CBD5E1]">{labels[key]}</span><div className="relative"><span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[#64748B]">₹</span><input type="number" min="0" value={values[`investment_${key}`] || ""} onChange={(event)=>setValues(current=>({...current,[`investment_${key}`]:event.target.value}))} className="w-full h-12 pl-9 pr-4 rounded-xl border border-white/[0.06] bg-[#050816] text-sm text-white focus:outline-none focus:border-[#3D4FE0]" /></div></label>)}
           <label className="flex flex-col gap-2 sm:col-span-2">
             <span className="text-xs font-semibold text-[#CBD5E1]">Primary financial goal (optional)</span>
             <input

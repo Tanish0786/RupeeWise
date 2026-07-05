@@ -3,6 +3,7 @@
 import { ArrowUpRight, Landmark, PiggyBank, Receipt, WalletCards } from "lucide-react";
 import Link from "next/link";
 import { formatINR, useFinancialData } from "@/components/financial-data";
+import { CashFlowChart, HealthGauge } from "@/components/financial-visuals";
 
 export default function DashboardPage() {
   const { profile } = useFinancialData();
@@ -25,11 +26,8 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
         {metrics.map(({ label, value, icon: Icon }) => <div key={label} className="p-5 rounded-2xl border border-white/[0.05] bg-[#121826]/65"><Icon className="w-5 h-5 text-[#3D4FE0]" /><p className="text-xs text-[#94A3B8] mt-5">{label}</p><p className="text-xl font-bold text-white mt-1">{formatINR(value)}</p></div>)}
       </div>
-      <div className="rounded-2xl border border-dashed border-white/[0.1] p-6 sm:p-8 text-center">
-        <h2 className="text-sm font-bold text-white">No transaction history yet</h2>
-        <p className="text-xs text-[#94A3B8] mt-2">Upload a statement to generate spending trends, charts, and category analysis from your own activity.</p>
-        <Link href="/dashboard/reports" className="inline-flex mt-5 h-10 px-4 items-center rounded-xl bg-[#3D4FE0] text-xs font-bold text-white">Upload a statement</Link>
-      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"><div className="lg:col-span-2"><CashFlowChart income={profile.monthlyIncome} expenses={profile.monthlyExpenses}/></div><HealthGauge income={profile.monthlyIncome} expenses={profile.monthlyExpenses} liabilities={profile.liabilities}/></div>
+      <div className="rounded-2xl border border-white/[0.05] bg-[#121826]/45 p-6 sm:p-8 text-center"><h2 className="text-sm font-bold text-white">Everything here comes from your entries</h2><p className="text-xs text-[#94A3B8] mt-2">Update your declared figures at any time and every chart, report, and insight will recalculate automatically.</p><Link href="/dashboard/settings" className="inline-flex mt-5 h-10 px-4 items-center rounded-xl bg-[#3D4FE0] text-xs font-bold text-white">Review my data</Link></div>
     </div>
   );
 }
