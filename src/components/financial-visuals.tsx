@@ -1,6 +1,19 @@
+import { useId } from "react";
 import { formatINR } from "./financial-data";
 
 export const chartColors = ["#3D4FE0", "#22C55E", "#F59E0B", "#06B6D4", "#F43F5E", "#8B5CF6"];
+
+export function SparklineMetric({ label, value, note, values, color = "#4F63FF" }: { label:string; value:string; note:string; values:number[]; color?:string }) {
+  const gradientId=useId().replace(/:/g,"");
+  const width=520,height=150,pad=8; const min=Math.min(...values); const max=Math.max(...values); const range=Math.max(1,max-min);
+  const points=values.map((item,index)=>({x:(index/(Math.max(1,values.length-1)))*width,y:pad+(1-(item-min)/range)*(height-pad*2-12)}));
+  const line=points.slice(1).reduce((path,point,index)=>{const previous=points[index];const isLast=index===points.length-2;const end=isLast?point:{x:(previous.x+point.x)/2,y:(previous.y+point.y)/2};return `${path} Q ${previous.x} ${previous.y} ${end.x} ${end.y}`;},`M ${points[0].x} ${points[0].y}`);
+  const area=`${line} L ${width} ${height} L 0 ${height} Z`;
+  return <div className="group relative min-h-[12.5rem] overflow-hidden rounded-2xl border border-white/[0.06] bg-[#101625] shadow-[0_20px_50px_-35px_rgba(0,0,0,.9)]">
+    <div className="relative z-10 p-5 flex justify-between items-start gap-4"><div><p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#8490A8]">{label}</p><p className="text-2xl sm:text-3xl font-bold text-white mt-2 tracking-tight">{value}</p></div><span className="text-[10px] font-bold rounded-full px-2 py-1" style={{color,backgroundColor:`${color}18`}}>{note}</span></div>
+    <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" className="absolute inset-x-0 bottom-0 w-full h-[58%] overflow-visible"><defs><linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={color} stopOpacity=".34"/><stop offset="1" stopColor={color} stopOpacity="0"/></linearGradient><filter id={`${gradientId}glow`}><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><path d={area} fill={`url(#${gradientId})`}/><path d={line} fill="none" stroke={color} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" filter={`url(#${gradientId}glow)`}/><circle cx={points.at(-1)?.x} cy={points.at(-1)?.y} r="6" fill={color}/></svg>
+  </div>;
+}
 
 export function Breakdown({ items }: { items: Array<{ label: string; value: number }> }) {
   const total = items.reduce((sum, item) => sum + item.value, 0);
