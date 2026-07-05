@@ -23,10 +23,10 @@ import {
   ChevronRight,
   X,
   CreditCard,
-  Lock,
-  ArrowUpRight
 } from "lucide-react";
 import Link from "next/link";
+import { FinancialDataProvider, useFinancialData } from "@/components/financial-data";
+import { FinancialOnboarding } from "@/components/financial-onboarding";
 
 const SIDEBAR_ITEMS = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -39,7 +39,13 @@ const SIDEBAR_ITEMS = [
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+function DashboardContent({ children }: { children: React.ReactNode }) {
+  const { profile, ready } = useFinancialData();
+  if (!ready) return <div className="dashboard-page text-sm text-[#94A3B8]">Loading your workspace…</div>;
+  return profile ? children : <FinancialOnboarding />;
+}
+
+function DashboardShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -52,14 +58,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   // Initialize theme from localStorage on load
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "light") {
-      setIsDarkMode(false);
-      document.documentElement.classList.add("light");
-    } else {
-      setIsDarkMode(true);
-      document.documentElement.classList.remove("light");
-    }
+    const timer = window.setTimeout(() => {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "light") {
+        setIsDarkMode(false);
+        document.documentElement.classList.add("light");
+      } else {
+        setIsDarkMode(true);
+        document.documentElement.classList.remove("light");
+      }
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   // Update theme on state change
@@ -297,21 +306,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                       <span className="text-xs font-bold text-white">Notifications</span>
                       <span className="text-[10px] text-[#3D4FE0] font-semibold cursor-pointer">Mark all read</span>
                     </div>
-                    <div className="flex flex-col gap-3">
-                      <div className="p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.03] flex items-start gap-2.5">
-                        <Sparkles className="w-4 h-4 text-[#3D4FE0] flex-shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-[11px] font-bold text-white leading-normal">Baniya AI Recommendation</p>
-                          <p className="text-[10px] text-[#94A3B8] mt-0.5">Opportunity detected: Save ₹4,200 on loan restructuring.</p>
-                        </div>
-                      </div>
-                      <div className="p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.03] flex items-start gap-2.5">
-                        <TrendingUp className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
-                        <div>
-                          <p className="text-[11px] font-bold text-white leading-normal">Deposit Successful</p>
-                          <p className="text-[10px] text-[#94A3B8] mt-0.5">₹50,000 added to Liquid Assets core balance.</p>
-                        </div>
-                      </div>
+                    <div className="py-6 text-center">
+                      <p className="text-[11px] font-bold text-white">No notifications yet</p>
+                      <p className="text-[10px] text-[#94A3B8] mt-1">Updates based on your activity will appear here.</p>
                     </div>
                   </motion.div>
                 )}
@@ -380,9 +377,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         {/* Content Body Pane */}
         <main className="flex-grow overflow-y-auto bg-[#050816]">
-          {children}
+          <DashboardContent>{children}</DashboardContent>
         </main>
       </div>
     </div>
   );
+}
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  return <FinancialDataProvider><DashboardShell>{children}</DashboardShell></FinancialDataProvider>;
 }
