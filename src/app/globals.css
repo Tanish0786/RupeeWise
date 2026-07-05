@@ -81,6 +81,63 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Shared application grid -------------------------------------------------
+   One gutter and one content measure keep every dashboard surface aligned. */
+:root {
+  --app-gutter: clamp(1rem, 2.5vw, 2rem);
+  --app-content: 80rem;
+  --app-section-gap: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.app-container {
+  width: min(100%, var(--app-content));
+  margin-inline: auto;
+  padding-inline: var(--app-gutter);
+}
+
+.dashboard-page {
+  width: min(100%, var(--app-content));
+  min-width: 0;
+  margin-inline: auto;
+  padding: clamp(1.25rem, 2.5vw, 2rem) var(--app-gutter) clamp(2.5rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-section-gap);
+}
+
+.dashboard-grid {
+  display: grid;
+  gap: var(--app-section-gap);
+}
+
+/* Prevent intrinsically wide chart/table children from breaking the grid. */
+.dashboard-page > *,
+.dashboard-page [class*="grid"],
+.dashboard-page [class*="flex"],
+main,
+section {
+  min-width: 0;
+}
+
+table {
+  width: 100%;
+}
+
+img,
+svg,
+canvas {
+  max-width: 100%;
+}
+
+@media (max-width: 639px) {
+  :root { --app-gutter: 1rem; }
+
+  .dashboard-page [class*="overflow-x-auto"] {
+    margin-inline: calc(var(--app-gutter) * -1);
+    padding-inline: var(--app-gutter);
+  }
+}
+
 /* Custom premium scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

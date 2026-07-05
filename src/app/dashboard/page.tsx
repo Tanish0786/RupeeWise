@@ -64,7 +64,7 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="p-6 md:p-8 flex flex-col gap-6 max-w-7xl mx-auto">
+    <div className="dashboard-page">
       {/* 1. Welcome Section */}
       {!welcomeDismissed && (
         <motion.div

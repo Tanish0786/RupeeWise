@@ -32,7 +32,7 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050816] flex items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-[#050816] flex items-center justify-center px-4 py-12 sm:p-6 relative overflow-hidden">
       {/* Background Glows */}
       <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[#3D4FE0]/10 blur-[100px] rounded-full pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-[#3D4FE0]/5 blur-[120px] rounded-full pointer-events-none" />
@@ -60,7 +60,7 @@ export default function ForgotPasswordPage() {
         </div>
 
         {/* Card Panel */}
-        <div className="glass-panel p-8 rounded-2xl shadow-2xl relative overflow-hidden">
+        <div className="glass-panel p-5 sm:p-8 rounded-2xl shadow-2xl relative overflow-hidden">
           {success ? (
             <div className="text-center py-4 flex flex-col items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400">

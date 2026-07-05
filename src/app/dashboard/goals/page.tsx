@@ -54,7 +54,7 @@ export default function GoalsPage() {
   };
 
   return (
-    <div className="p-6 md:p-8 flex flex-col gap-6 max-w-5xl mx-auto">
+    <div className="dashboard-page">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>

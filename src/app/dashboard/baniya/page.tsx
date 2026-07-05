@@ -332,7 +332,7 @@ function BaniyaWorkspace() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-5rem)] border-t border-white/[0.04] bg-[#050816]">
+    <div className="flex min-h-[calc(100dvh-5rem)] border-t border-white/[0.04] bg-[#050816] overflow-hidden">
       {/* 1. History Sidebar Pane */}
       <aside className="w-64 border-r border-white/[0.04] bg-[#0B1020]/40 p-4 hidden md:flex flex-col gap-4">
         <button
@@ -379,7 +379,7 @@ function BaniyaWorkspace() {
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#3D4FE0]/5 blur-[120px] rounded-full pointer-events-none" />
 
         {/* Scrollable Conversation area */}
-        <div className="flex-1 overflow-y-auto p-6 md:p-8 flex flex-col gap-6 scrollbar-thin">
+        <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 md:px-8 flex flex-col gap-6 scrollbar-thin">
           
           {/* Header Title */}
           <div className="mb-2">
@@ -473,7 +473,7 @@ function BaniyaWorkspace() {
 
         {/* Prompt presets list */}
         {activeSession?.messages.length <= 1 && (
-          <div className="px-6 md:px-8 pb-3 flex flex-wrap gap-2 justify-center max-w-3xl mx-auto z-10">
+          <div className="px-4 sm:px-6 md:px-8 pb-3 flex flex-wrap gap-2 justify-center max-w-3xl mx-auto z-10">
             {PRESETS.map((p) => (
               <button
                 key={p}
@@ -487,7 +487,7 @@ function BaniyaWorkspace() {
         )}
 
         {/* Input Bar */}
-        <form onSubmit={handleSend} className="p-6 border-t border-white/[0.04] bg-[#0B1020]/25 backdrop-blur-md relative z-10 flex gap-3">
+        <form onSubmit={handleSend} className="p-4 sm:p-6 border-t border-white/[0.04] bg-[#0B1020]/25 backdrop-blur-md relative z-10 flex gap-3">
           <input
             type="text"
             value={input}
@@ -497,7 +497,7 @@ function BaniyaWorkspace() {
           />
           <button
             type="submit"
-            className="h-12 px-6 rounded-xl bg-[#3D4FE0] hover:scale-105 active:scale-95 transition-all text-xs font-bold text-white flex items-center gap-1.5 cursor-pointer shadow-lg shadow-[#3D4FE0]/25"
+            className="h-12 px-4 sm:px-6 rounded-xl bg-[#3D4FE0] hover:scale-105 active:scale-95 transition-all text-xs font-bold text-white flex items-center gap-1.5 cursor-pointer shadow-lg shadow-[#3D4FE0]/25 flex-shrink-0"
           >
             Send Query
             <Send className="w-4 h-4" />

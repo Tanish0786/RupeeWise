@@ -125,7 +125,7 @@ export default function ReportsPage() {
   const currentReport = reportData[reportPeriod];
 
   return (
-    <div className="p-6 md:p-8 flex flex-col gap-6 max-w-5xl mx-auto">
+    <div className="dashboard-page">
       {/* Title */}
       <div className="flex justify-between items-start">
         <div>

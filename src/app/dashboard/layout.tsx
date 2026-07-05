@@ -231,7 +231,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* 3. Main Dashboard Wrapper */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Header Navigation */}
-        <header className="h-20 border-b border-white/[0.04] bg-[#0B1020]/45 backdrop-blur-md px-6 md:px-8 flex items-center justify-between relative z-20">
+        <header className="h-20 border-b border-white/[0.04] bg-[#0B1020]/45 backdrop-blur-md relative z-20">
+          <div className="app-container h-full flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             {/* Mobile Hamburger toggle */}
             <button
@@ -289,7 +290,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute right-0 mt-3 w-80 bg-[#121826] border border-white/[0.08] rounded-2xl shadow-2xl p-4 overflow-hidden z-50"
+                    className="absolute right-0 mt-3 w-[min(20rem,calc(100vw-2rem))] bg-[#121826] border border-white/[0.08] rounded-2xl shadow-2xl p-4 overflow-hidden z-50"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <div className="flex justify-between items-center pb-3 border-b border-white/[0.04] mb-3">
@@ -338,7 +339,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute right-0 mt-3 w-56 bg-[#121826] border border-white/[0.08] rounded-2xl shadow-2xl p-2.5 z-50"
+                    className="absolute right-0 mt-3 w-[min(14rem,calc(100vw-2rem))] bg-[#121826] border border-white/[0.08] rounded-2xl shadow-2xl p-2.5 z-50"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <div className="px-3.5 py-3 border-b border-white/[0.04] mb-2">
@@ -373,6 +374,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 )}
               </AnimatePresence>
             </div>
+          </div>
           </div>
         </header>
 

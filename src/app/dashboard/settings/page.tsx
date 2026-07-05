@@ -15,7 +15,7 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="p-6 md:p-8 flex flex-col gap-6 max-w-5xl mx-auto">
+    <div className="dashboard-page">
       <div>
         <h1 className="text-xl font-bold text-white flex items-center gap-2">
           <Settings className="w-5 h-5 text-[#3D4FE0]" />
@@ -50,7 +50,7 @@ export default function SettingsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-2 p-6 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md flex flex-col gap-5">
+        <div className="md:col-span-3 p-5 sm:p-6 rounded-2xl border border-white/[0.05] bg-[#121826]/65 backdrop-blur-md flex flex-col gap-5">
           {activeTab === "Profile" && (
             <>
               <h2 className="text-sm font-bold text-white mb-2">Personal Parameters</h2>
