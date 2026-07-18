@@ -65,15 +65,106 @@ function answer(question: string, profile: FinancialProfile, history: Message[])
 
 export default function BaniyaPage() {
   const { profile } = useFinancialData();
-  const [input,setInput]=useState("");
-  const [messages,setMessages]=useState<Message[]>([{id:1,role:"assistant",text:"I’m ready. Ask me anything about the financial information you entered."}]);
-  if(!profile)return null;
-  const send=(text:string)=>{const clean=text.trim();if(!clean)return;setMessages(current=>[...current,{id:Date.now(),role:"user",text:clean},{id:Date.now()+1,role:"assistant",text:answer(clean,profile,current)}]);setInput("")};
-  const presets=["Review my spending","How is my debt?","Explain my portfolio","Am I on track for my goal?"];
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<Message[]>([
+    { id: 1, role: "assistant", text: "I’m ready. Ask me anything about the financial information you entered." }
+  ]);
+  const [isPending, setIsPending] = useState(false);
+
+  if (!profile) return null;
+
+  const send = async (text: string) => {
+    const clean = text.trim();
+    if (!clean || isPending) return;
+
+    const userMessage: Message = { id: Date.now(), role: "user", text: clean };
+    setMessages(current => [...current, userMessage]);
+    setInput("");
+    setIsPending(true);
+
+    try {
+      const response = await fetch("/api/baniya", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: clean,
+          profile,
+          history: messages,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok && data.text) {
+        setMessages(current => [
+          ...current,
+          { id: Date.now() + 1, role: "assistant", text: data.text }
+        ]);
+      } else {
+        setMessages(current => [
+          ...current,
+          { id: Date.now() + 1, role: "assistant", text: `Error: ${data.error || "Failed to fetch response."}` }
+        ]);
+      }
+    } catch (err) {
+      setMessages(current => [
+        ...current,
+        { id: Date.now() + 1, role: "assistant", text: "Error: Connection issue. Please check your network and make sure the server is running." }
+      ]);
+    } finally {
+      setIsPending(false);
+    }
+  };
+
+  const presets = ["Review my spending", "How is my debt?", "Explain my portfolio", "Am I on track for my goal?"];
+
   return <div className="h-[calc(100dvh-5rem)] flex flex-col overflow-hidden relative">
     <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_15%,rgba(61,79,224,.1),transparent_38%)] pointer-events-none" />
-    <div className="relative app-container py-5 border-b border-white/[0.05] flex items-center gap-3"><div className="w-10 h-10 rounded-xl bg-[#3D4FE0] shadow-lg shadow-[#3D4FE0]/25 flex items-center justify-center"><Sparkles className="w-5 h-5 text-white"/></div><div><h1 className="text-sm font-bold text-white">Baniya</h1><p className="text-[10px] text-emerald-400">Ready · grounded in your entries</p></div></div>
-    <div className="relative flex-1 overflow-y-auto"><div className="app-container max-w-4xl py-7 flex flex-col gap-6">{messages.map(message=><div key={message.id} className={`flex gap-3 ${message.role==="user"?"flex-row-reverse ml-auto":"mr-auto"} max-w-[88%]`}><div className={`w-9 h-9 rounded-xl flex-shrink-0 flex items-center justify-center ${message.role==="user"?"bg-white/10":"bg-[#3D4FE0]/15 text-[#6475ff]"}`}>{message.role==="user"?<User className="w-4 h-4"/>:<Bot className="w-4 h-4"/>}</div><div className={`p-4 rounded-2xl text-sm leading-relaxed shadow-xl ${message.role==="user"?"bg-[#3D4FE0] text-white rounded-tr-sm":"bg-[#121826]/85 border border-white/[0.06] text-[#CBD5E1] rounded-tl-sm"}`}>{message.text}</div></div>)}</div></div>
-    <div className="relative border-t border-white/[0.05] bg-[#0B1020]/75 backdrop-blur-xl"><div className="app-container max-w-4xl py-4"><div className="flex gap-2 overflow-x-auto pb-3">{presets.map(preset=><button key={preset} onClick={()=>send(preset)} className="flex-shrink-0 px-3 py-1.5 rounded-full border border-white/[0.07] bg-white/[0.02] text-[10px] text-[#CBD5E1] hover:border-[#3D4FE0]">{preset}</button>)}</div><form onSubmit={event=>{event.preventDefault();send(input)}} className="flex gap-3"><input value={input} onChange={event=>setInput(event.target.value)} placeholder="Ask Baniya about your finances…" className="flex-1 min-w-0 h-12 px-4 rounded-xl border border-white/[0.07] bg-[#050816] text-sm text-white focus:outline-none focus:border-[#3D4FE0]"/><button className="h-12 px-4 sm:px-6 rounded-xl bg-[#3D4FE0] text-xs font-bold text-white inline-flex items-center gap-2">Send <Send className="w-4 h-4"/></button></form><p className="text-[9px] text-[#64748B] text-center mt-2">Responses use only your declared data and are not financial advice.</p></div></div>
+    <div className="relative app-container py-5 border-b border-white/[0.05] flex items-center gap-3"><div className="w-10 h-10 rounded-xl bg-[#3D4FE0] shadow-lg shadow-[#3D4FE0]/25 flex items-center justify-center"><Sparkles className="w-5 h-5 text-white"/></div><div><h1 className="text-sm font-bold text-white">Baniya</h1><p className="text-[10px] text-emerald-400">Ready · powered by Groq LLM</p></div></div>
+    
+    <div className="relative flex-1 overflow-y-auto">
+      <div className="app-container max-w-4xl py-7 flex flex-col gap-6">
+        {messages.map(message => (
+          <div key={message.id} className={`flex gap-3 ${message.role === "user" ? "flex-row-reverse ml-auto" : "mr-auto"} max-w-[88%]`}>
+            <div className={`w-9 h-9 rounded-xl flex-shrink-0 flex items-center justify-center ${message.role === "user" ? "bg-white/10" : "bg-[#3D4FE0]/15 text-[#6475ff]"}`}>
+              {message.role === "user" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+            </div>
+            <div className={`p-4 rounded-2xl text-sm leading-relaxed shadow-xl whitespace-pre-line ${message.role === "user" ? "bg-[#3D4FE0] text-white rounded-tr-sm" : "bg-[#121826]/85 border border-white/[0.06] text-[#CBD5E1] rounded-tl-sm"}`}>
+              {message.text}
+            </div>
+          </div>
+        ))}
+        {isPending && (
+          <div className="flex gap-3 mr-auto max-w-[88%]">
+            <div className="w-9 h-9 rounded-xl flex-shrink-0 flex items-center justify-center bg-[#3D4FE0]/15 text-[#6475ff]">
+              <Bot className="w-4 h-4" />
+            </div>
+            <div className="p-4 rounded-2xl text-sm leading-relaxed shadow-xl bg-[#121826]/85 border border-white/[0.06] text-[#CBD5E1] rounded-tl-sm flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 bg-[#6475ff] rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></span>
+              <span className="w-1.5 h-1.5 bg-[#6475ff] rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></span>
+              <span className="w-1.5 h-1.5 bg-[#6475ff] rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></span>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+
+    <div className="relative border-t border-white/[0.05] bg-[#0B1020]/75 backdrop-blur-xl">
+      <div className="app-container max-w-4xl py-4">
+        <div className="flex gap-2 overflow-x-auto pb-3">
+          {presets.map(preset => (
+            <button key={preset} disabled={isPending} onClick={() => send(preset)} className="flex-shrink-0 px-3 py-1.5 rounded-full border border-white/[0.07] bg-white/[0.02] text-[10px] text-[#CBD5E1] hover:border-[#3D4FE0] disabled:opacity-50 disabled:cursor-not-allowed">
+              {preset}
+            </button>
+          ))}
+        </div>
+        <form onSubmit={event => { event.preventDefault(); send(input); }} className="flex gap-3">
+          <input disabled={isPending} value={input} onChange={event => setInput(event.target.value)} placeholder="Ask Baniya about your finances…" className="flex-1 min-w-0 h-12 px-4 rounded-xl border border-white/[0.07] bg-[#050816] text-sm text-white focus:outline-none focus:border-[#3D4FE0] disabled:opacity-50" />
+          <button disabled={isPending || !input.trim()} className="h-12 px-4 sm:px-6 rounded-xl bg-[#3D4FE0] text-xs font-bold text-white inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+            Send <Send className="w-4 h-4" />
+          </button>
+        </form>
+        <p className="text-[9px] text-[#64748B] text-center mt-2">Responses use only your declared data and are not financial advice.</p>
+      </div>
+    </div>
   </div>;
 }
